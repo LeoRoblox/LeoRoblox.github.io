@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OG Leo — Roblox Shop</title>
+  <meta name="description" content="OG Leo's Roblox Shop — Shirts & limitierte Artikel" />
+
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#7dd3fc;
+      --muted:#94a3b8;
+      --glass: rgba(255,255,255,0.02);
+      --radius:14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#071022 0%, #071826 100%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:24px;
+    }
+
+    /* Header / Nav */
+    .site {
+      max-width:1100px;
+      margin:0 auto;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:22px;
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:inherit;
+    }
+    .logo {
+      width:48px;
+      height:48px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),#60a5fa);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#04263b;
+      font-weight:800;
+      box-shadow: 0 6px 20px rgba(45,55,72,0.35);
+    }
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:10px;
+      font-weight:600;
+      margin-left:6px;
+      display:inline-block;
+    }
+    nav a.active{
+      color:var(--bg);
+      background:var(--accent);
+    }
+
+    /* Hero */
+    .hero {
+      display:flex;
+      gap:20px;
+      align-items:center;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:18px;
+      border-radius:var(--radius);
+      margin-bottom:18px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .hero .title{
+      font-size:18px;
+      font-weight:700;
+      letter-spacing:0.2px;
+    }
+    .hero .subtitle{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:6px;
+    }
+
+    /* Grid */
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:16px;
+    }
+    @media (max-width:900px){
+      .grid{grid-template-columns: repeat(2,1fr)}
+    }
+    @media (max-width:560px){
+      .grid{grid-template-columns: 1fr}
+      header{flex-direction:column;align-items:flex-start}
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .thumb{
+      height:160px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:rgba(255,255,255,0.88);
+      font-weight:700;
+      font-size:22px;
+      letter-spacing:0.6px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .meta .name{font-weight:700}
+    .meta .price{color:var(--muted); font-weight:600}
+
+    .actions{
+      display:flex;
+      gap:8px;
+      margin-top:auto;
+    }
+    .btn{
+      flex:1;
+      padding:8px 10px;
+      border-radius:10px;
+      text-decoration:none;
+      text-align:center;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .btn.primary{
+      background:var(--accent);
+      color:var(--bg);
+    }
+    .btn.ghost{
+      background:var(--glass);
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,0.02);
+    }
+
+    /* Empty state */
+    .empty{
+      padding:28px;
+      border-radius:12px;
+      text-align:center;
+      color:var(--muted);
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border:1px dashed rgba(255,255,255,0.02);
+    }
+
+    footer{
+      margin-top:18px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* small helper */
+    .badge{
+      font-size:12px;
+      padding:6px 8px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.03);
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,0.02);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site">
+    <header>
+      <a class="brand" href="#shirts" aria-label="Zur Startseite wechseln">
+        <div class="logo">OG</div>
+        <div>
+          <div style="font-weight:800">OG Leo</div>
+          <div style="font-size:12px;color:var(--muted)">Roblox Shop — Shirts & Limitiert</div>
+        </div>
+      </a>
+
+      <nav aria-label="Seiten Navigation">
+        <a href="#shirts" id="nav-shirts">Shirts</a>
+        <a href="#limitiert" id="nav-limited">Limitiert</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-hidden="false">
+        <div>
+          <div class="title">Willkommen im OG Leo Roblox Shop</div>
+          <div class="subtitle">Klicke auf "Shirts" oder "Limitiert" um zwischen den Kategorien zu wechseln.</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          <div class="badge">Sichere Zahlung</div>
+          <div class="badge">Direkter Roblox-Link</div>
+        </div>
+      </section>
+
+      <!-- Shirts Seite -->
+      <section id="page-shirts" data-page="shirts">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <h2 style="margin:0">Shirts</h2>
+          <div style="color:var(--muted);font-size:14px">Alle verfügbaren Shirts</div>
+        </div>
+
+        <div id="shirts-grid" class="grid"></div>
+        <div id="shirts-empty" class="empty" style="display:none">Keine Shirts gefunden. Füge einige in die JS-Liste ein.</div>
+      </section>
+
+      <!-- Limitiert Seite -->
+      <section id="page-limited" data-page="limitiert" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <h2 style="margin:0">Limitiert</h2>
+          <div style="color:var(--muted);font-size:14px">Seltene & limitierte Artikel</div>
+        </div>
+
+        <div id="limited-grid" class="grid"></div>
+        <div id="limited-empty" class="empty" style="display:none">Zurzeit keine limitierten Artikel.</div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div>© <span id="yr"></span> OG Leo — Erstellt mit ❤️</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">Hinweis: Ersetze die Platzhalter-Links in der Datei mit deinen Roblox-Shop-URLs.</div>
+    </footer>
+  </div>
+
+  <script>
+    // ==== Beispielproduktdaten ====
+    // Ersetze title, price, and link mit echten Roblox-URLs/Bildern.
+    const items = [
+      { id:1, title:"Blauer OG Shirt", price:"5 Robux", link:"https://www.roblox.com/catalog/000000/replace-with-your-id", color:"linear-gradient(135deg,#60a5fa,#0284c7)"},
+      { id:2, title:"Rotes OG Shirt",  price:"8 Robux", link:"https://www.roblox.com/catalog/000000/replace-with-your-id", color:"linear-gradient(135deg,#f97316,#ef4444)"},
+      { id:3, title:"Schwarz/Weiß Logo", price:"12 Robux", link:"https://www.roblox.com/catalog/000000/replace-with-your-id", color:"linear-gradient(135deg,#111827,#374151)"}
+    ];
+
+    const limitedItems = [
+      { id:101, title:"Limitierte OG-Kollektion #1", price:"50 Robux", link:"https://www.roblox.com/catalog/000000/replace-with-your-id", color:"linear-gradient(135deg,#f0abfc,#7c3aed)"},
+      // füge hier mehr hinzu wenn nötig
+    ];
+
+    // ==== Render-Funktionen ====
+    function createCard(item){
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.innerHTML = `
+        <div class="thumb" style="background:${item.color}">${item.title}</div>
+        <div class="meta">
+          <div class="name">${item.title}</div>
+          <div class="price">${item.price}</div>
+        </div>
+        <div class="actions">
+          <a class="btn primary" target="_blank" rel="noopener noreferrer" href="${item.link}">Zur Roblox-Seite</a>
+          <button class="btn ghost" onclick="copyLink('${item.link}')">Link kopieren</button>
+        </div>
+      `;
+      return div;
+    }
+
+    function renderGrid(list, containerId, emptyId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      if (!list || list.length === 0) {
+        document.getElementById(emptyId).style.display = 'block';
+        return;
+      } else {
+        document.getElementById(emptyId).style.display = 'none';
+      }
+      list.forEach(it => {
+        container.appendChild(createCard(it));
+      });
+    }
+
+    function copyLink(url){
+      navigator.clipboard?.writeText(url).then(()=>{
+        alert('Link kopiert!');
+      }).catch(()=>{
+        prompt('Kopiere diesen Link manuell:', url);
+      });
+    }
+
+    // ==== Navigation / Hash routing ====
+    const navShirts = document.getElementById('nav-shirts');
+    const navLimited = document.getElementById('nav-limited');
+
+    function setActiveNav(hash) {
+      navShirts.classList.remove('active');
+      navLimited.classList.remove('active');
+      if (hash === '#limitiert') navLimited.classList.add('active');
+      else navShirts.classList.add('active');
+    }
+
+    function showPage(hash) {
+      const shirtsSection = document.getElementById('page-shirts');
+      const limitedSection = document.getElementById('page-limited');
+      if (hash === '#limitiert') {
+        shirtsSection.style.display = 'none';
+        limitedSection.style.display = '';
+      } else {
+        limitedSection.style.display = 'none';
+        shirtsSection.style.display = '';
+      }
+      setActiveNav(hash);
+    }
+
+    window.addEventListener('hashchange', () => {
+      const h = location.hash || '#shirts';
+      showPage(h);
+    });
+
+    // initial render
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    renderGrid(items, 'shirts-grid', 'shirts-empty');
+    renderGrid(limitedItems, 'limited-grid', 'limited-empty');
+
+    // show page based on current hash (or default)
+    if (!location.hash) location.hash = '#shirts';
+    showPage(location.hash);
+
+    // ==== Hinweise für dich: ====
+    // - Um eigene Produkte hinzuzufügen, bearbeite die arrays "items" und "limitedItems" oben.
+    // - Ersetze die link-Strings mit deinen echten Roblox-Katalog-URLs.
+    // - Du kannst statt der einfachen thumb-Divs auch <img> mit echten Thumbnails nutzen:
+    //   z.B. <div class="thumb"><img src="THUMB_URL" alt="..." style="width:100%;height:100%;object-fit:cover;border-radius:8px" /></div>
+  </script>
+</body>
+</html>
