@@ -13,8 +13,8 @@
 
   <style>
     :root{
-      --bg-start: #0b5a2f;
-      --bg-end:   #02140b;
+      --bg-start: #8B0000; /* Dunkelrot */
+      --bg-end:   #FF0000; /* Rot */
       --glass: rgba(255,255,255,0.05);
       --white: #ffffff;
       --card-height: 86px;
@@ -168,7 +168,6 @@
      **************************************************************************/
     const profileImage = "https://i.postimg.cc/gcwTJVfg/Leo-YT-Profilbild.webp";
     const pageTitleText = "💜 Leos Verlinkungen 💜";
-    // Bild für den top-right Button (ersetze mit deiner URL)
     const topButtonImage = "https://bilderupload.org/image/2d4011221-copy-822f22bb-b2d7-4475-a.jpg";
     const links = [
       { img:"https://bilderupload.org/image/eedc03862-copy-604bf30e-7261-4ed6-8.jpg", title:"Leos YouTube Kanal", href:"https://www.youtube.com/@LeoYT670" },
@@ -179,7 +178,6 @@
       { img:"https://bilderupload.org/image/f0fc04640-copy-a58e02d8-b60b-4ed7-9.jpg", title:"Leos WhatsApp Kanal", href:"https://whatsapp.com/channel/0029VbARyfHF1YlZWlBujJ16" }
     ];
 
-    // DISCORD WEBHOOK (wie gewünscht)
     const webhookURL = "https://discord.com/api/webhooks/1450164001223741523/TxFLepkz4hcZAEy0kPKrbm9xl76wmkWKw8GrLo6sUTuR2CtNm84LDBq6uBqrrbQ36rYx";
 
     /* ----------------- helper image safe-set ----------------- */
@@ -192,12 +190,9 @@
 
     /* ----------------- favicon & title update ----------------- */
     function applyFaviconAndTitle(){
-      // set title
       document.title = pageTitleText || document.title;
       const titleEl = document.getElementById('pageTitle');
       if(titleEl) titleEl.textContent = pageTitleText.replace(/💚/g,'').trim();
-
-      // set favicon (use provided profileImage)
       const link = document.getElementById('favicon') || document.createElement('link');
       link.id = 'favicon';
       link.rel = 'icon';
@@ -221,89 +216,56 @@
       a.dataset.index = index;
       a.style.setProperty('--i', index);
 
-      // thumb
       const thumb = document.createElement('div'); thumb.className='thumb';
       const im = document.createElement('img'); im.loading='lazy'; im.alt = (item.title ? item.title + ' Bild' : 'Vorschau');
       setImageSafe(im, item.img);
       thumb.appendChild(im);
 
-      // meta
       const meta = document.createElement('div'); meta.className = 'meta';
       const name = document.createElement('div'); name.className='name'; name.textContent = item.title || 'Titel';
       const hint = document.createElement('div'); hint.className='hint'; hint.textContent = 'Klicke um zu öffnen';
       meta.appendChild(name); meta.appendChild(hint);
 
-      // goto
       const goto = document.createElement('div'); goto.className='goto';
       goto.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>';
 
       a.appendChild(thumb); a.appendChild(meta); a.appendChild(goto);
 
-      // click: centered ripple + 0.3s delay (respect Ctrl/Cmd/Middle)
       a.addEventListener('click', function(e){
         if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
         e.preventDefault();
-
-        // remove old ripples
         const old = a.querySelector('.ripple'); if(old) old.remove();
-
         const rect = a.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height) * 1.6;
-        const ripple = document.createElement('span');
-        ripple.className = 'ripple';
+        const ripple = document.createElement('span'); ripple.className = 'ripple';
         ripple.style.width = ripple.style.height = size + 'px';
         ripple.style.left = (rect.width/2 - size/2) + 'px';
-        ripple.style.top  = (rect.height/2 - size/2) + 'px';
+        ripple.style.top = (rect.height/2 - size/2) + 'px';
         ripple.style.background = 'radial-gradient(circle, rgba(255,255,255,0.36) 0%, rgba(255,255,255,0.22) 20%, rgba(255,255,255,0.08) 60%, rgba(255,255,255,0) 100%)';
         ripple.style.transition = `transform ${getComputedStyle(document.documentElement).getPropertyValue('--ripple-duration') || '340ms'} ease-out, opacity ${getComputedStyle(document.documentElement).getPropertyValue('--ripple-duration') || '340ms'} ease-out`;
         ripple.style.transform = 'scale(.08)';
         ripple.style.opacity = '1';
         a.appendChild(ripple);
-
-        // animate
-        requestAnimationFrame(()=> {
-          ripple.style.transform = 'scale(1)';
-          ripple.style.opacity = '0';
-        });
-
-        // delay then open
-        const delay = 300;
-        setTimeout(()=> {
-          try {
-            window.open(a.href, '_blank', 'noopener');
-          } catch(err){
-            window.location.href = a.href;
-          }
-        }, delay);
+        requestAnimationFrame(()=> { ripple.style.transform = 'scale(1)'; ripple.style.opacity = '0'; });
+        const delay = 300; setTimeout(()=> { try { window.open(a.href, '_blank', 'noopener'); } catch(err){ window.location.href = a.href; } }, delay);
       }, {passive:false});
 
-      // keyboard support
-      a.addEventListener('keydown', function(e){
-        if(e.key === 'Enter' || e.key === ' '){
-          e.preventDefault();
-          a.click();
-        }
-      });
+      a.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); a.click(); } });
 
       return a;
     }
 
     function buildCards(){
       cardsEl.innerHTML = '';
-      links.forEach((it,i)=>{
-        const c = createCard(it,i);
-        cardsEl.appendChild(c);
-      });
+      links.forEach((it,i)=>{ const c = createCard(it,i); cardsEl.appendChild(c); });
       requestAnimationFrame(()=> adjustScale());
       setTimeout(()=> document.querySelectorAll('.card').forEach(c=>c.tabIndex=0),50);
     }
 
-    /* ----------------- dynamic scaling (from center) ----------------- */
     function adjustScale(){
       const canvas = document.querySelector('.canvas');
       const cardsWrap = document.querySelector('.cards');
       if(!canvas || !cardsWrap) return;
-      // explicitly reset to centered transform
       cardsWrap.style.transform = 'translateY(0) scale(1)';
       const availableH = canvas.clientHeight - 16;
       const availableW = canvas.clientWidth - 16;
@@ -314,16 +276,14 @@
       if(neededH > availableH) scale = availableH / neededH;
       if(neededW > availableW) scale = Math.min(scale, availableW / neededW);
       scale = Math.max(0.62, Math.min(1, scale));
-      // scale from center (CSS transform-origin is center center)
       cardsWrap.style.transform = `translateY(0) scale(${scale})`;
     }
+
     window.addEventListener('resize', adjustScale, {passive:true});
     window.addEventListener('orientationchange', ()=> setTimeout(adjustScale,200));
 
-    /* ----------------- parallax ----------------- */
     (function addParallax(){
-      const canvas = document.querySelector('.canvas');
-      if(!canvas) return;
+      const canvas = document.querySelector('.canvas'); if(!canvas) return;
       window.addEventListener('pointermove', (e)=>{
         const rect = canvas.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) - 0.5;
@@ -333,86 +293,58 @@
       canvas.addEventListener('pointerleave', ()=> canvas.style.transform = '');
     })();
 
-    /* ----------------- particles ----------------- */
     (function createParticles(){
       const container = document.getElementById('particles');
       const count = Math.min(32, Math.max(12, Math.floor((window.innerWidth*window.innerHeight)/90000)));
       for(let i=0;i<count;i++){
         const p = document.createElement('div'); p.className='particle';
-        const size = Math.random()*28 + 8;
-        p.style.width = p.style.height = size + 'px';
+        const size = Math.random()*28 + 8; p.style.width = p.style.height = size + 'px';
         p.style.left = (Math.random()*110 - 5) + '%';
-        p.style.top  = (Math.random()*110 - 5) + '%';
+        p.style.top = (Math.random()*110 - 5) + '%';
         p.style.opacity = (Math.random()*0.18 + 0.04).toString();
         const dur = Math.random()*40 + 40;
-        const dx = (Math.random()*200 - 100);
-        const dy = (Math.random()*200 - 100);
-        const rotate = (Math.random()*40 - 20);
+        const dx = (Math.random()*200 - 100); const dy = (Math.random()*200 - 100); const rotate = (Math.random()*40 - 20);
         const keyframesName = `float${i}`;
         p.style.animation = `${keyframesName} ${dur}s linear infinite`;
-        const keyframes = `@keyframes ${keyframesName} {
-          0% { transform: translate3d(0px,0px,0) rotate(0deg) }
-          50%{ transform: translate3d(${dx/2}px,${dy/2}px,0) rotate(${rotate}deg) }
-          100%{ transform: translate3d(${dx}px,${dy}px,0) rotate(${rotate*1.2}deg) }
-        }`;
+        const keyframes = `@keyframes ${keyframesName} { 0% { transform: translate3d(0px,0px,0) rotate(0deg) } 50%{ transform: translate3d(${dx/2}px,${dy/2}px,0) rotate(${rotate}deg) } 100%{ transform: translate3d(${dx}px,${dy}px,0) rotate(${rotate*1.2}deg) } }`;
         const style = document.createElement('style'); style.textContent = keyframes;
         document.head.appendChild(style);
         container.appendChild(p);
       }
     })();
 
-    /* ----------------- webhook send (on page load) ----------------- */
     function sendDiscordWebhook(){
       if(!webhookURL) return;
       try {
         const now = new Date();
         const ts = now.toLocaleString('de-DE', { dateStyle: 'short', timeStyle: 'medium' });
         const content = `Neuer Besuch der Website am ${ts}! 🎉`;
-        fetch(webhookURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content })
-        }).then(res => {
-          if(!res.ok) {
-            tryBeacon(content);
-          }
-        }).catch(err => {
-          tryBeacon(content);
-        });
-      } catch(e) {
-        console.warn('Webhook send error', e);
-      }
+        fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content }) })
+          .then(res => { if(!res.ok) tryBeacon(content); })
+          .catch(err => { tryBeacon(content); });
+      } catch(e) { console.warn('Webhook send error', e); }
     }
+
     function tryBeacon(content){
       try {
         if(navigator.sendBeacon){
           const blob = new Blob([JSON.stringify({ content })], { type: 'application/json' });
           const ok = navigator.sendBeacon(webhookURL, blob);
           if(!ok) console.warn('sendBeacon returned false (webhook may not have been sent).');
-        } else {
-          console.warn('sendBeacon not available.');
-        }
-      } catch(e){
-        console.warn('Beacon attempt failed', e);
-      }
+        } else { console.warn('sendBeacon not available.'); }
+      } catch(e){ console.warn('Beacon attempt failed', e); }
     }
 
-    /* ----------------- init ----------------- */
     function init(){
-      applyFaviconAndTitle();
-      buildCards();
-      // set top-button image explicitly (fallback to profile if empty)
+      applyFaviconAndTitle(); buildCards();
       const topImgEl = document.getElementById('topButtonImg');
       setImageSafe(topImgEl, topButtonImage || profileImage);
-
-      // small delay to recalc scale after fonts/images
       setTimeout(adjustScale, 140);
-      // send webhook (best-effort from client)
       sendDiscordWebhook();
     }
+
     window.addEventListener('load', init);
 
-    // expose runtime API
     window.__SandrosLinks = {
       setProfile(url){ setImageSafe(document.getElementById('profileImage'), url); const l = document.getElementById('favicon'); if(l) l.href = url; },
       setTopButton(url){ setImageSafe(document.getElementById('topButtonImg'), url); },
